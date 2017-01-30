@@ -25,6 +25,7 @@ if (isset($_POST["State"])) {
 <head>
 <meta charset = “UFT-8”>
 <title>OGSC クラウドから、コールバックで返却される値を取得。</title>
+
 </head>
 <body>
 <h1>コールバック先</h1>
