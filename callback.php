@@ -1,7 +1,10 @@
 <?php
 
-$appid = $clientid = $clientsecret = $state = "";
+$code = $appid = $clientid = $clientsecret = $state = "";
 
+if (isset($_GET["code"])) {
+	$code = $_GET[‘code’];
+}
 if (isset($_POST["AppID"])) {
 	$appid = $_POST[‘AppID’];
 }
@@ -26,6 +29,10 @@ if (isset($_POST["State"])) {
 <body>
 <h1>コールバック先</h1>
 
+<BR>
+<?php
+echo $code;
+?>
 <BR>
 <?php
 echo $appid;
