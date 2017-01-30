@@ -1,0 +1,46 @@
+{
+  "author": {
+	  "name":"Robert Haddad (SmokinPuppy)",
+	  "email": "rha2180@yahoo.com"
+  },
+  "title": "jQuery BarGauge",
+  "name": "BarGauge",
+  "version": "1.1.0",
+  "keywords": [
+        "progress",
+        "bar",
+        "graph",
+        "gauge",
+        "animated",
+        "ui"
+    ],
+  "main": [
+  	"demo.html",
+    "js/jquery.BarGauge.js",
+    "css/BarGauge/jquery.BarGauge.css",
+    "css/BarGauge/bar_graph.png",
+	"css/BarGauge/bar_graph-colorScale.png",
+	"css/BarGauge/bar_graph-gradient.png"
+  ],
+  "description": "Small jQuery Plugin to display a Progress / Bar Gauge",
+  "repository": {
+        "type": "git",
+        "url": "git://github.com/smokinpuppy/BarGauge.git"
+   },
+  "homepage": "http://smokinpuppy.github.io/BarGauge/",
+  "download": "https://github.com/smokinpuppy/BarGauge/archive/master.zip",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "ignore": [
+  ],
+  "dependencies": {
+	  "jquery": ">=2.0",
+	  "jquery-ui": ">=1.9.2"
+  },
+  "devDependencies": {
+  }
+}
