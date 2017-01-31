@@ -108,8 +108,8 @@ echo $clientsecret;
   <input type="button" id="btn1" value="ＯＧＳＣクラウドにシステムがログイン" onclick="onLoginButton1_Click()" /><br>
 
 <h1>APIログイン後の受診データ</h1>
-<?php var_dump($result);?>
-<?php echo $result ; ?>
+<?php //var_dump($result);?><BR>
+<?php echo $result ; ?><BR>
 
 
 </body>
