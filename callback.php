@@ -59,7 +59,7 @@ function http_post ($url, $http_post_body)
 <script type="text/javascript">
 
  function onLoginButton1_Click(){
-	 header("Content-Type: text/javascript; charset=utf-8");
+//	 header("Content-Type: text/javascript; charset=utf-8");
 	 $respons_json = http_post($url, $http_post_body);
 	 $result = json_decode($respons_json);
 
