@@ -1,29 +1,26 @@
 <?php
-$state = $code = $appid = $clientid = $clientsecret =$result = "初期値";
+$state = $code = $result = "初期値";
 IF(isset($_GET["code"])){
 	$code = $_GET["code"];
 }
 IF(isset($_GET["state"])){
 	$state = $_GET["state"];
 }
-IF(isset($_POST["AppID"])){
-	$appid = $_POST["AppID"];
-}
-IF(isset($_POST["ClientID"])){
-	$clientid = $_POST["ClientID"];
-}
-IF(isset($_POST["ClientSecret"])){
-	$clientsecret = $_POST["ClientSecret"];
-}
+
+//OMRON connect アクセス情報
+$appid = "bdf72f34";
+$clientid = "a9f0vfobhlh6n9c4q2q6d8v03al719kj5sh8";
+$clientsecret = "utu14mjvqtbanuo63nn2v2dqk9e5h9qajuq85tm2ogbtl40r3aga5pbq7m772u07";
+$callbackurl = "https://ohq-jp-php-test.mybluemix.net/callback.php";
 
 // ログイン用のWebAPIをここに記載
-$url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/token';
+$url = 'https://data-stg-jp.omronconnect.mobi/api/apps/".$appid."/oauth2/token';
 $http_post_body = array(
 		"grant_type" => "authorization_code",
 		"code" => $code,
-		"redirect_uri" => "https://ohq-jp-php-test.mybluemix.net/callback.php",
-		"client_id" => "a9f0vfobhlh6n9c4q2q6d8v03al719kj5sh8",
-		"client_secret" => "utu14mjvqtbanuo63nn2v2dqk9e5h9qajuq85tm2ogbtl40r3aga5pbq7m772u07"
+		"redirect_uri" => $callbackurl,
+		"client_id" => $clientid,
+		"client_secret" => $clientsecret
 );
 
 function http_post ($url, $http_post_body)
