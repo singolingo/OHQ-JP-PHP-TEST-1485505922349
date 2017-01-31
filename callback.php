@@ -1,6 +1,6 @@
 <?php
 
-$code = $appid = $clientid = $clientsecret = $state = "";
+$code = $appid = $clientid = $clientsecret = $state = "初期値";
 
 if (isset($_GET["code"])) {
 	$code = $_GET[‘code’];
