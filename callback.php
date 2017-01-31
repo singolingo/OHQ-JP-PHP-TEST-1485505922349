@@ -7,6 +7,7 @@ IF(isset($_GET["state"])){
 	$state = $_GET["state"];
 }
 
+
 //OMRON connect アクセス情報
 $appid = "bdf72f34";
 $clientid = "a9f0vfobhlh6n9c4q2q6d8v03al719kj5sh8";
@@ -57,11 +58,15 @@ function http_post ($url, $http_post_body)
 <title>OGSC クラウドから、コールバックで返却される値を取得。</title>
 
 <script type="text/javascript">
+ var target1 = document.getElementById("message1");
 
  function onLoginButton1_Click(){
-//	 header("Content-Type: text/javascript; charset=utf-8");
+<?php
+	 header("Content-Type: text/javascript; charset=utf-8");
 	 $respons_json = http_post($url, $http_post_body);
 	 $result = json_decode($respons_json);
+?>
+	 target1.innerHTML = <?php echo $result?>;
 
  }
 
@@ -105,8 +110,7 @@ echo $clientsecret;
   <input type="button" id="btn1" value="ＯＧＳＣクラウドにシステムがログイン" onclick="onLoginButton1_Click()" /><br>
 
 <h1>APIログイン後の受診データ</h1>
-<?php //var_dump($result);?><BR>
-<?php echo $result ; ?><BR>
+    <div id="message1"></div><br>
 
 
 </body>
