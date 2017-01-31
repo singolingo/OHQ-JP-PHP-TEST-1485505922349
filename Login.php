@@ -15,7 +15,6 @@ $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/authorize
 
 <script type="text/javascript">
 
-    //【環境センサー】Nifty mobile backendアプリとの連携
  function onLoginButton1_Click(){
 
     	window.location.href = "<?php print ($url);?>>";
@@ -28,7 +27,7 @@ $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/authorize
 
 </head>
 <body>
-<h1>ＯＧＳＣにログイン</h1>
+<h1>ＳＴＥＰ１：ＯＧＳＣにユーザーがログイン操作をします。</h1>
   <input type="button" id="btn1" value="ＯＧＳＣクラウドにログイン" onclick="onLoginButton1_Click()" /><br>
 
 </body>
