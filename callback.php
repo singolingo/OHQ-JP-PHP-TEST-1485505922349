@@ -1,22 +1,29 @@
 <?php
 
-$code = $appid = $clientid = $clientsecret = $state = "初期値";
+$state = $code = $appid = $clientid = $clientsecret = "初期値";
 
-if (isset($_GET["code"])) {
-	$code = $_GET[‘code’];
+
+IF(isset($_GET["code"])){
+	$code = $_GET["code"];
 }
-if (isset($_POST["AppID"])) {
-	$appid = $_POST[‘AppID’];
+
+IF(isset($_GET["state"])){
+	$state = $_GET["state"];
 }
-if (isset($_POST["ClientID"])) {
-	$clientid = $_POST[‘ClientID’];
+
+IF(isset($_POST["AppID"])){
+	$appid = $_POST["AppID"];
 }
-if (isset($_POST["ClientSecret"])) {
-	$clientsecret = $_POST[‘ClientSecret’];
+
+IF(isset($_POST["ClientID"])){
+	$clientid = $_POST["ClientID"];
 }
-if (isset($_POST["State"])) {
-	$state = $_POST[‘State’];
+
+IF(isset($_POST["ClientSecret"])){
+	$clientsecret = $_POST["ClientSecret"];
 }
+
+
 
 ?>
 
@@ -30,25 +37,31 @@ if (isset($_POST["State"])) {
 <body>
 <h1>コールバック先</h1>
 
+
 <BR>
+code:
 <?php
 echo $code;
 ?>
 <BR>
+state:
+<?php
+echo $state;
+?>
+<BR>
+appid:
 <?php
 echo $appid;
 ?>
 <BR>
+clientid:
 <?php
 echo $clientid;
 ?>
 <BR>
+clientsecret:
 <?php
 echo $clientsecret;
-?>
-<BR>
-<?php
-echo $state;
 ?>
 <BR>
 
