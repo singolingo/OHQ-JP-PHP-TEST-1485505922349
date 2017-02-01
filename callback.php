@@ -76,7 +76,7 @@ $response_json= json_decode ($result["content"],true);
 </head>
 <body>
 <h1>ＯＧＳＣから外部サービスに、認証情報がコールバックされました。</h1>
-<h1>ＯＧＳＣからの返却値</h1>
+■ＯＧＳＣからの返却値
 <BR>
 <font color=blue>code:</font><?php echo $code; ?>
 <BR>
@@ -90,8 +90,8 @@ $response_json= json_decode ($result["content"],true);
 <BR>
 <font color=blue>url:</font><?php echo $url; ?>
 <BR><BR>
-OGSCから送信されたデータ<BR>
-<?php //var_dump($result);?>
+■OGSCから送信されたデータ<BR>
+<?php var_dump($result);?>
 <BR>
 <font color=blue>id:</font><?php echo  $response_json["id"];?>
 <BR>

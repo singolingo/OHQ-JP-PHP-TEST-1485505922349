@@ -21,7 +21,7 @@ $url_local .= $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 
  function onLoginButton1_Click(){
 
-    	window.location.href = "<?php print ($url);?>>";
+    	window.location.href = "<?php print ($url);?>";
 
  }
 
