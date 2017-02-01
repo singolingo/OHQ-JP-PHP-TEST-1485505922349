@@ -24,7 +24,7 @@ $http_post_body = array(
 		"client_secret" => $clientsecret
 );
 
-url_2  = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
 $url_2 .= $_SERVER["HTTP_HOST"]."Chart.php";
 
 
