@@ -6,6 +6,9 @@ IF(isset($_GET["state"])){
 	$state = $_GET["state"];
 }
 
+$url_local  = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+$url_local .= $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+
 
 //OMRON connect アクセス情報
 $appid = "bdf72f34";
@@ -66,8 +69,8 @@ $response_json= json_decode ($result["content"],true);
 	$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
 	$url_2 .= $_SERVER["HTTP_HOST"];
 //	$url_2 .= "/Chart.php?access_token=";
-	$url_2 .= "/index.php?access_token=";
-	$url_2 .= $response_json['access_token']
+	$url_2 .= "/index.php";
+//  $url_2 .= $response_json['access_token'];
 
 	?>
 	 window.location.href = "<?php print ($url_2);?>";
@@ -76,12 +79,14 @@ $response_json= json_decode ($result["content"],true);
 
 </head>
 <body>
+NowURL:<?php echo $url_local;?>
+
 <h1>ＯＧＳＣから外部サービスに、認証情報がコールバックされました。</h1>
-■ＯＧＳＣからの返却値
+■ＳＴＥＰ２：ＯＧＳＣへのトークン要求時に必要な情報
 <BR>
-<font color=blue>code:</font><?php echo $code; ?>
+<font color=red>code:</font><?php echo $code; ?>
 <BR>
-<font color=blue>state:</font><?php echo $state; ?>
+<font color=red>state:</font><?php echo $state; ?>
 <BR>
 <font color=blue>appid:</font><?php echo $appid; ?>
 <BR>
@@ -91,25 +96,39 @@ $response_json= json_decode ($result["content"],true);
 <BR>
 <font color=blue>url:</font><?php echo $url; ?>
 <BR><BR>
-■OGSCから送信されたデータ<BR>
-<?php var_dump($result);?>
+■ＳＴＥＰ３：OGSCから送信されたデータ<BR>
+<?php //var_dump($result);?>
+<!--
 <BR>
-<font color=blue>id:</font><?php echo  $response_json["id"];?>
+<font color=green>id:</font><?php echo  $response_json["id"];?>
 <BR>
-<font color=blue>access_token:</font><?php echo  $response_json["access_token"];?>
+<font color=green>access_token:</font><?php echo  $response_json["access_token"];?>
 <BR>
-<font color=blue>refresh_token:</font><?php echo  $response_json["refresh_token"];?>
+<font color=green>refresh_token:</font><?php echo  $response_json["refresh_token"];?>
 <BR>
-<font color=blue>id_token:</font><?php echo  $response_json["id_token"];?>
+<font color=green>id_token:</font><?php echo  $response_json["id_token"];?>
 <BR>
-<font color=blue>expires_in:</font><?php echo  $response_json["expires_in"];?>
+<font color=green>expires_in:</font><?php echo  $response_json["expires_in"];?>
 <BR>
-<font color=blue>token_type:</font><?php echo  $response_json["token_type"];?>
+<font color=green>token_type:</font><?php echo  $response_json["token_type"];?>
 <BR>
+-->
 
+<font color=green>id:</font>191e695246a0-2198-6e11-cb6e-01909381
 <BR>
-<h1>ＳＴＥＰ２：アクセストークンを使って、外部サービスがＯＧＳＣに接続します。</h1>
-  <input type="button" id="btn1" value="ＯＧＳＣとシステム連携" onclick="onLoginButton2_Click();" /><br>
+<font color=green>access_token:</font>KLYjOs_OmX-pHf5yTS4d4bCTKnAfBtm5tyWnSnCQW98
+<BR>
+<font color=green>refresh_token:</font>br-jqU-hxakd_6bBck0ufBq3Uz5iXINJOoUDcJHWm5s
+<BR>
+<font color=green>id_token:</font>eyJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhOWYwdmZvYmhsaDZuOWM0cTJxNmQ4djAzYWw3MTlrajVzaDgiLCJzdWIiOiIxOTFlNjk1MjQ2YTAtMjE5OC02ZTExLWNiNmUtMDE5MDkzODEiLCJhcHBJRCI6ImJkZjcyZjM0IiwiaXNzIjoiaHR0cHM6XC9cL2RhdGEtc3RnLWpwLm9tcm9uY29ubmVjdC5tb2JpXC9hcGlcL2FwcHNcL2JkZjcyZjM0IiwiZXhwIjoxNDg1ODUyNTEwLCJpYXQiOjE0ODU4NDg5OTV9.GL_nszrhtUysLjYutL5y7tkk_6mbIKg_ouY9IU76b3G6AK4i8SC_rfTYzPB8dFPKWuEbQ8pJs18eREK3JW7gMXlUrJNegoMJA06OhZK31nXIDiACaNuPXJhLMiLVMSeyAYonyRPmbvJSterQ52HhCKgDkcR91C8nvjneag1e0eQ
+<BR>
+<font color=green>expires_in:</font>3514
+<BR>
+<font color=green>token_type:</font>bearer
+<BR>
+<BR>
+<h1>ＳＴＥＰ４：入手したアクセストークンを使って、ＯＧＳＣにバイタルデータを要求</h1>
+  <input type="button" id="btn1" value="バイタルデータ参照" onclick="onLoginButton2_Click();" /><br>
 
 
 </body>

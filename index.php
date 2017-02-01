@@ -112,8 +112,9 @@ function drawChart() {
       ['1/30 16:22',99,173,90],
       ['1/30 16:23',110,156,87],
       ['1/31 9:13',92,160,83],
-      ['2/1 11:33',98,154,86]
-    ]);
+      ['2/1 11:33',98,154,86]  //,['2/2 16:15',96,148,84]
+
+      ]);
 
     var options = {
       title: '血圧グラフ',
@@ -142,31 +143,30 @@ function drawChart() {
 		</tr>
 	</table>
 
-	<table width=500>
+	<table width=500 align=left>
    <h1>血圧計</h1>
    <div id="curve_chart"></div>
    </table>
 
-   <table>
+   <table border=1>
    <h1>環境センサー</h1>
-
-    <input type="button" id="btn1" value="接続" onclick="onKankyoButton1_Click()" /><br>
-
+     <font color=red><B>更新ボタン</B></font>：
+     <input type="button" id="btn1" value="接続" onclick="onKankyoButton1_Click()" />
       <tr>
-      <td><font size=22 >気温</font></td><td><font size=22 color=blue><div id="message1"></div></font></td>
-      <td><font size=22 >湿度</font></td><td><font size=22 color=blue><div id="message2"></div></font></td>
+      <td width=200><font size=16 >気温</font></td><td width=200><font size=16 color=blue><div id="message1"></div></font></td>
+      <td width=200><font size=16 >湿度</font></td><td width=200><font size=16 color=blue><div id="message2"></div></font></td>
       </tr>
       <tr>
-      <td><font size=22 >照度</font></td><td><font size=22 color=blue><div id="message3"></div></font></td>
-      <td><font size=22 >騒音</font></td><td><font size=22 color=blue><div id="message4"></div></font></td>
+      <td><font size=16 >照度</font></td><td><font size=16 color=blue><div id="message3"></div></font></td>
+      <td><font size=16 >騒音</font></td><td><font size=16 color=blue><div id="message4"></div></font></td>
       </tr>
       <tr>
-      <td><font size=22 >UV</font></td><td><font size=22 color=blue><div id="message5"></div></font></td>
-      <td><font size=22 >気圧</font></td><td><font size=22 color=blue><div id="message6"></div></font></td>
+      <td><font size=16 >UV</font></td><td><font size=16 color=blue><div id="message5"></div></font></td>
+      <td><font size=16 >気圧</font></td><td><font size=16 color=blue><div id="message6"></div></font></td>
       </tr>
       <tr>
-      <td><font size=22 >不快</font></td><td><font size=22 color=blue><div id="message7"></div></font></td>
-      <td><font size=22 >熱中症</font></td><td><font size=22 color=blue><div id="message8"></div></font></td>
+      <td><font size=16 >不快</font></td><td><font size=16 color=blue><div id="message7"></div></font></td>
+      <td><font size=16 >熱中症</font></td><td><font size=16 color=blue><div id="message8"></div></font></td>
       </tr>
     </table>
 
