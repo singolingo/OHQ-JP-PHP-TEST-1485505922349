@@ -15,7 +15,7 @@ $clientsecret = "utu14mjvqtbanuo63nn2v2dqk9e5h9qajuq85tm2ogbtl40r3aga5pbq7m772u0
 $callbackurl = "https://ohq-jp-php-test.mybluemix.net/callback.php";
 
 // ログイン用のWebAPIをここに記載
-$url = 'https://data-stg-jp.omronconnect.mobi/api/apps/".$appid."/oauth2/token';
+$url = 'https://data-stg-jp.omronconnect.mobi/api/apps/'.$appid.'/oauth2/token';
 $http_post_body = array(
 		"grant_type" => "authorization_code",
 		"code" => $code,
@@ -45,8 +45,11 @@ function http_post ($url, $http_post_body)
 					),
 			'headers'=> $http_response_header
 	);
-}
+};
 
+$respons_json = http_post ($url, $http_post_body);
+
+$result = json_decode ($respons_json);
 
 
 ?>
@@ -61,14 +64,9 @@ function http_post ($url, $http_post_body)
  var target1 = document.getElementById("message1");
 
  function onLoginButton1_Click(){
-<?php
-	 header("Content-Type: text/javascript; charset=utf-8");
-	 $respons_json = http_post($url, $http_post_body);
-	 $result = json_decode($respons_json);
-?>
-	 target1.innerHTML = <?php echo $result?>;
+	 target1.innerHTML = "<?php echo $result; ?>";
 
- }
+ };
 
 </script>
 
@@ -104,7 +102,14 @@ clientsecret:
 echo $clientsecret;
 ?>
 <BR>
-<BR>
+<?php
+echo $url;
+?>
+<BR>受診データ
+<?php
+var_dump($respons_json);
+?>
+
 <BR>
 <h1>ＳＴＥＰ２：ＯＧＳＣに外部サービスがデータ取得のためAPIログイン操作をします。</h1>
   <input type="button" id="btn1" value="ＯＧＳＣクラウドにシステムがログイン" onclick="onLoginButton1_Click()" /><br>
