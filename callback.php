@@ -24,6 +24,10 @@ $http_post_body = array(
 		"client_secret" => $clientsecret
 );
 
+url_2  = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+$url_2 .= $_SERVER["HTTP_HOST"]."Chart.php";
+
+
 function http_post ($url, $http_post_body)
 {
 	$data_url = http_build_query ($http_post_body);
@@ -58,61 +62,33 @@ $result = json_decode ($respons_json);
 <html lang = “ja”>
 <head>
 <meta charset = “UFT-8”>
-<title>OGSC クラウドから、コールバックで返却される値を取得。</title>
-
+<title>OGSC クラウドから、コールバックで返却される値</title>
 <script type="text/javascript">
  var target1 = document.getElementById("message1");
 
- function onLoginButton1_Click(){
-	 target1.innerHTML = "<?php echo $result; ?>";
-
- };
-
+ function onLoginButton2_Click(){
+ 	window.location.href = "<?php print ($url_2);?>>";
+	 };
 </script>
 
 </head>
 <body>
-<h1>外部サービスにＯＧＳＣがコールバックしました。</h1>
-
-
+<h1>ＯＧＳＣから外部サービスに、認証情報がコールバックされました。</h1>
 <h1>ＯＧＳＣからの返却値</h1>
 <BR>
-code:
-<?php
-echo $code;
-?>
-<BR>
-state:
-<?php
-echo $state;
-?>
-<BR>
-appid:
-<?php
-echo $appid;
-?>
-<BR>
-clientid:
-<?php
-echo $clientid;
-?>
-<BR>
-clientsecret:
-<?php
-echo $clientsecret;
-?>
-<BR>
-<?php
-echo $url;
-?>
-<BR>受診データ
-<?php
-var_dump($respons_json);
-?>
+code:<?php echo $code; ?>
+state:<?php echo $state; ?>
+appid:<?php echo $appid; ?>
+clientid:<?php echo $clientid; ?>
+clientsecret:<?php echo $clientsecret; ?>
+url:<?php echo $url; ?>
+
+<BR>OGSCから送信されたデータ
+<?php var_dump($respons_json); ?>
 
 <BR>
-<h1>ＳＴＥＰ２：ＯＧＳＣに外部サービスがデータ取得のためAPIログイン操作をします。</h1>
-  <input type="button" id="btn1" value="ＯＧＳＣクラウドにシステムがログイン" onclick="onLoginButton1_Click()" /><br>
+<h1>ＳＴＥＰ２：アクセストークンを使って、外部サービスがＯＧＳＣに接続します。</h1>
+  <input type="button" id="btn1" value="ＯＧＳＣとシステム連携" onclick="onLoginButton2_Click();" /><br>
 
 <h1>APIログイン後の受診データ</h1>
     <div id="message1"></div><br>

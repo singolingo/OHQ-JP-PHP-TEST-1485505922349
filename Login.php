@@ -4,6 +4,10 @@
 $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/authorize?response_type=code&client_id=a9f0vfobhlh6n9c4q2q6d8v03al719kj5sh8&redirect_uri=https://ohq-jp-php-test.mybluemix.net/callback.php&scope=openid&state=sjp';
 //header('Location: {$url}');
 //exit();
+
+$url_local  = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+$url_local .= $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+
 ?>
 
 <!DOCTYPE html>
@@ -27,9 +31,10 @@ $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/authorize
 
 </head>
 <body>
+NowURL:<?php echo $url_local;?>
+
 <h1>ＳＴＥＰ１：ＯＧＳＣバイタルデータへのアクセス承認画面</h1>
   <input type="button" id="btn1" value="私のバイタルデータに参照することに同意します。" onclick="onLoginButton1_Click();" /><br>
-
 </body>
 </html>
 
