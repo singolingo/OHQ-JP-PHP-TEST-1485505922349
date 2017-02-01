@@ -24,6 +24,9 @@ $http_post_body = array(
 		"client_secret" => $clientsecret
 );
 
+$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+$url_2 .= $_SERVER["HTTP_HOST"]."Chart.php";
+
 
 function http_post ($url, $http_post_body)
 {
@@ -48,8 +51,9 @@ function http_post ($url, $http_post_body)
 	);
 };
 
-$result = http_post ($url, $http_post_body);
-$response_json= json_decode ($result["content"],true);
+$respons_json = http_post ($url, $http_post_body);
+
+$result = json_decode ($respons_json.content,true);
 
 
 ?>
@@ -63,13 +67,7 @@ $response_json= json_decode ($result["content"],true);
  var target1 = document.getElementById("message1");
 
  function onLoginButton2_Click(){
-	<?php
-	$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
-	$url_2 .= $_SERVER["HTTP_HOST"];
-	$url_2 .= "/Chart.php?access_token=";
-	$url_2 .= $response_json['access_token']
-	?>
-	 window.location.href = "<?php print ($url_2);?>";
+ 	window.location.href = "<?php print ($url_2);?>>";
 	 };
 </script>
 
@@ -90,25 +88,19 @@ $response_json= json_decode ($result["content"],true);
 <BR>
 <font color=blue>url:</font><?php echo $url; ?>
 <BR><BR>
-OGSCから送信されたデータ<BR>
-<?php //var_dump($result);?>
-<BR>
-<font color=blue>id:</font><?php echo  $response_json["id"];?>
-<BR>
-<font color=blue>access_token:</font><?php echo  $response_json["access_token"];?>
-<BR>
-<font color=blue>refresh_token:</font><?php echo  $response_json["refresh_token"];?>
-<BR>
-<font color=blue>id_token:</font><?php echo  $response_json["id_token"];?>
-<BR>
-<font color=blue>expires_in:</font><?php echo  $response_json["expires_in"];?>
-<BR>
-<font color=blue>token_type:</font><?php echo  $response_json["token_type"];?>
-<BR>
+OGSCから送信されたデータ
+<?php
+//var_dump($respons_json);
+echo  $result["content"]["id"];
+
+?>
 
 <BR>
 <h1>ＳＴＥＰ２：アクセストークンを使って、外部サービスがＯＧＳＣに接続します。</h1>
   <input type="button" id="btn1" value="ＯＧＳＣとシステム連携" onclick="onLoginButton2_Click();" /><br>
+
+<h1>APIログイン後の受診データ</h1>
+    <div id="message1"></div><br>
 
 
 </body>
