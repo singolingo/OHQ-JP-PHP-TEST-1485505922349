@@ -8,7 +8,7 @@ $clientid = "a9f0vfobhlh6n9c4q2q6d8v03al719kj5sh8";
 $clientsecret = "utu14mjvqtbanuo63nn2v2dqk9e5h9qajuq85tm2ogbtl40r3aga5pbq7m772u07";
 $callbackurl = "https://ohq-jp-php-test.mybluemix.net/callback.php";
 $id = "191e695246a0-2198-6e11-cb6e-01909381";
-//$access_token = "iiBWbzIASOhbQA3WWu6PVyeGnx4p6kCbTYtNMM3UFIc";
+$access_token = "KLYjOs_OmX-pHf5yTS4d4bCTKnAfBtm5tyWnSnCQW98";  // dummy
 IF(isset($_GET["access_token"])){
 	$access_token = $_GET["access_token"];
 }
@@ -19,30 +19,31 @@ $token_type = "bearer";
 
 //ＷｅｂＡＰＩリクエスト
 $method = "POST";
-$header = "Content-Type: application/json, Authorization: Bearer ".$access_token ;
+//$header = "Content-Type: application/json, Authorization: Bearer ".$access_token ;
+$header = "Content-Type: application/x-www-form-urlencoded, Authorization: Bearer ".$access_token ;
 
 $paginationKey = "";  //初回データ取得時は不要
-$deviceCategory = "0"; // ★必須 （血圧計：0、体組成計：1、歩数計：2、睡眠計：3、体温計：4、血糖計：5）
+$deviceCategory = 0; // ★必須 （血圧計：0、体組成計：1、歩数計：2、睡眠計：3、体温計：4、血糖計：5）
 $deviceModel = "";
 $deviceSerialID = "";
 $userNumberInDevice = "";
 $searchDateFrom = "1483196400000"; //ceil(microtime(true)*1000); //▲準必須
 $searchDateTo = "1485874800000"; //ceil(microtime(true)*1000); //▲準必須
 $searchDeviceDateFrom = "20170101000000"; //▲準必須
-$searchDeviceDateTo = "20170201000000"; //▲準必須
+$searchDeviceDateTo = "20170102000000"; //▲準必須
 
 
 
 // ログイン用のWebAPIをここに記載
 $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/'.$appid.'/server-code/versions/current/measureData';
 $http_post_body = array(
-		"paginationKey" => "", //初回データ取得時は不要
+//		"paginationKey" => "", //初回データ取得時は不要
 		"deviceCategory" => $deviceCategory,
-		"deviceModel" => $deviceModel,
-		"deviceSerialID" => $deviceSerialID,
-		"userNumberInDevice" => $userNumberInDevice,
-		"searchDateFrom" => $searchDateFrom,
-		"searchDateTo" => $searchDateTo,
+//		"deviceModel" => $deviceModel,
+//		"deviceSerialID" => $deviceSerialID,
+//		"userNumberInDevice" => $userNumberInDevice,
+//		"searchDateFrom" => $searchDateFrom,
+//		"searchDateTo" => $searchDateTo,
 		"searchDeviceDateFrom" => $searchDeviceDateFrom,
 		"searchDeviceDateTo" => $searchDeviceDateTo
 );
