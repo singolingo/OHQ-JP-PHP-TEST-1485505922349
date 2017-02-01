@@ -27,8 +27,8 @@ $url = 'https://data-stg-jp.omronconnect.mobi/api/apps/bdf72f34/oauth2/authorize
 
 </head>
 <body>
-<h1>ＳＴＥＰ１：ＯＧＳＣにユーザーがログイン操作をします。</h1>
-  <input type="button" id="btn1" value="ＯＧＳＣクラウドにログイン" onclick="onLoginButton1_Click();" /><br>
+<h1>ＳＴＥＰ１：ＯＧＳＣバイタルデータへのアクセス承認画面</h1>
+  <input type="button" id="btn1" value="私のバイタルデータに参照することに同意します。" onclick="onLoginButton1_Click();" /><br>
 
 </body>
 </html>
