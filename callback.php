@@ -64,9 +64,11 @@ $response_json= json_decode ($result["content"],true);
 
  function onLoginButton2_Click(){
 	<?php
-	$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+//	$url_2 = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+	$url_2 = "http://"
 	$url_2 .= $_SERVER["HTTP_HOST"];
-	$url_2 .= "/Chart.php?access_token=";
+//	$url_2 .= "/Chart.php?access_token=";
+	$url_2 .= "/index.php?access_token=";
 	$url_2 .= $response_json['access_token']
 	?>
 	 window.location.href = "<?php print ($url_2);?>";
