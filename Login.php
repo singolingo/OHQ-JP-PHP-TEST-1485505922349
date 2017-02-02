@@ -34,7 +34,7 @@ $url_local .= $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 NowURL:<?php echo $url_local;?>
 
 <h1>ＳＴＥＰ１：ＯＧＳＣバイタルデータへのアクセス承認画面</h1>
-  <input type="button" id="btn1" value="私のバイタルデータに参照することに同意します。" onclick="onLoginButton1_Click();" /><br>
+  <input type="button" id="btn1" value="私のバイタルデータへ参照することに同意します。" onclick="onLoginButton1_Click();" /><br>
 </body>
 </html>
 
