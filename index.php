@@ -30,7 +30,7 @@
 
 
     var target1 = document.getElementById("message1");
-    target1.innerHTML = "接続成功";
+    target1.innerHTML = "接続成功→読込中";
     var target2 = document.getElementById("message2");
     var target3 = document.getElementById("message3");
     var target4 = document.getElementById("message4");
@@ -127,8 +127,8 @@ function drawChart() {
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    window.setTimeout(chart.draw(data, options), 3000);
 
-    chart.draw(data, options);
   }
 
 
@@ -147,7 +147,7 @@ function drawChart() {
 
 	<table width=500 align=left>
    <h1>血圧計</h1>
-   <div id="curve_chart"></div>
+   <div id="curve_chart"><B><font size=128 color=red>読込中</font><B></div>
    </table>
 
    <table border=1>
