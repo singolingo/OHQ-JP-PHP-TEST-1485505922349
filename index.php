@@ -60,20 +60,21 @@
          temper = object.get("temperature");
          humid = object.get("humidity");
          illumi = object.get("illuminance");
-         uv = object.get("uv");
          noize = object.get("noise");
+         uv = object.get("uv");
+         air = object.get("airPressure");
          temphumid = object.get("temperatureHumidity");
          heat = object.get("heatStroke");
-         air = object.get("airPressure");
 
-         target1.innerHTML = temper.slice(0,temper.indexOf(',') );
-         target2.innerHTML = humid.slice(0,humid.indexOf(','));
+//         target1.innerHTML = temper.slice(0,temper.indexOf(',') );
+         target1.innerHTML = temper.slice(0,4 );
+         target2.innerHTML = humid.slice(0,4);
          target3.innerHTML = illumi.slice(0,illumi.indexOf(','));
-         target4.innerHTML = uv.slice(0,uv.indexOf(','));
-         target5.innerHTML = noize.slice(0,noize.indexOf(','));
-         target6.innerHTML = temphumid.slice(0,temphumid.indexOf(','));
-         target7.innerHTML = heat.slice(0,heat.indexOf(','));
-         target8.innerHTML = air.slice(0,air.indexOf(','));
+         target4.innerHTML = noize.slice(0,5);
+         target5.innerHTML = uv.slice(0,4);
+         target6.innerHTML = air.slice(0,4);
+         target7.innerHTML = temphumid.slice(0,6);
+         target8.innerHTML = heat.slice(0,4);
 
          $('#kion').BarGauge.value = 70;
          $('#kion').update();
