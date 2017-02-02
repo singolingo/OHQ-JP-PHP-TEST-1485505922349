@@ -71,10 +71,10 @@
          target1.innerHTML = temper.slice(0,4 );
          target2.innerHTML = humid.slice(0,4);
          target3.innerHTML = illumi.slice(0,illumi.indexOf(','));
-         target4.innerHTML = noize.slice(0,5);
+         target4.innerHTML = noize.slice(0,4);
          target5.innerHTML = uv.slice(0,4);
          target6.innerHTML = air.slice(0,4);
-         target7.innerHTML = temphumid.slice(0,6);
+         target7.innerHTML = temphumid.slice(0,4);
          target8.innerHTML = heat.slice(0,4);
 
          $('#kion').BarGauge.value = 70;
@@ -127,7 +127,7 @@ function drawChart() {
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-    window.setTimeout(chart.draw(data, options), 3000);
+    window.setTimeout(chart.draw(data, options), 7000);
 
   }
 
