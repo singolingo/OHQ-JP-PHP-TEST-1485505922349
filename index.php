@@ -66,6 +66,7 @@
          temphumid = object.get("temperatureHumidity");
          heat = object.get("heatStroke");
 
+
 //         target1.innerHTML = temper.slice(0,temper.indexOf(',') );
          target1.innerHTML = temper.slice(0,4 );
          target2.innerHTML = humid.slice(0,4);
