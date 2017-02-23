@@ -17,7 +17,7 @@
 <script type="text/javascript" src="js/ncmb.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
- <!--Load the Google API-->
+<!--Load the Google API-->
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
 <script type="text/javascript">
@@ -28,43 +28,43 @@
 
 //【構造体】健康データ
 function HealthData(p1,p2,p3,p4){
-	this.date=p1;
-	this.max=p2;
-	this.min=p3;
-	this.bpm=p4;
+this.date=p1;
+this.max=p2;
+this.min=p3;
+this.bpm=p4;
 
-  }
+}
 
 //【構造体】環境データ
 function KankyoData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10){
-	this.temper=p1;
-	this.humid=p2;
-	this.illumi=p3;
-	this.noize=p4;
-	this.uv=p5;
-	this.air=p6;
-	this.temphumid=p7;
-	this.heat=p8;
-    this.kankyo_date=p9;
-    this.battery=p10;  //配列ではない。
+this.temper=p1;
+this.humid=p2;
+this.illumi=p3;
+this.noize=p4;
+this.uv=p5;
+this.air=p6;
+this.temphumid=p7;
+this.heat=p8;
+this.kankyo_date=p9;
+this.battery=p10;  //配列ではない。
 }
 
 //【構造体】合体データ
 function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
-	this.date=p1;
-	this.max=p2;
-	this.min=p3;
-	this.bpm=p4;
-	this.temper=p5;
-	this.humid=p6;
-	this.illumi=p7;
-	this.noize=p8;
-	this.uv=p9;
-	this.air=p10;
-	this.temphumid=p11;
-	this.heat=p12;
+this.date=p1;
+this.max=p2;
+this.min=p3;
+this.bpm=p4;
+this.temper=p5;
+this.humid=p6;
+this.illumi=p7;
+this.noize=p8;
+this.uv=p9;
+this.air=p10;
+this.temphumid=p11;
+this.heat=p12;
 
-  }
+}
 
 
 
@@ -76,6 +76,10 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
 ////////////////////////////////////////////////////////////
 //////////環境センサーのデータを取得（Nifty Mobile Backend）
 //////////////////////////////////////////////////////////
+// Nifty Cloud上のデータストアに接続
+//【環境センサー】Nifty mobile backendアプリとの連携
+function onKankyoButton1_Click(){
+
     // Nifty Cloud上のデータストアに接続
  	var ncmb = new NCMB("e34bf31c6652e31c561f3f0253bd13a46ace822c266a490e69d13c51109f0106", "1e58451ab1c41d53824514f79552c0a718716af91e898f8418494bf22132b416");
     var class_KankyoSensor = ncmb.DataStore("sensor_data");
@@ -91,7 +95,6 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
     var battery; // 電池ボルト数
 
     KSdata = [];
-
 
 
     var target1 = document.getElementById("message1");
@@ -141,54 +144,54 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
 
 
 //////////データ取得　/////////////////////////////////////
-    class_KankyoSensor.equalTo("sensorId","1B-00-01-21") //SensorIdは埋め込み。
-    .order("measureDate",true)  //降順にソート（昇順の場合は、第２引数をカット。）
-    .limit(1)
-    .fetchAll()
-    .then(function(result){
 
-        target1.innerHTML = "接続成功→読込中";
+    //環境データの取込
+class_KankyoSensor.equalTo("sensorId","1B-00-01-21") //SensorIdは埋め込み。
+.order("measureDate",true)  //降順にソート（昇順の場合は、第２引数をカット。）
+.limit(1)
+.fetchAll()
+.then(function(results){
 
-        //最新の環境データを参照（配列＝０）
-    	for (var i = 0; i < result.length; i++) {
+        //チャート表示のために、配列でデータを取得。
+//        chart = new KankyoData;
 
-    		var object = result[i];
+        //環境センサーアプリ経由の最新情報を取得
+    	for (var i = 0; i < results.length; i++) {
+        	var object = results[i];
 
-    		temper = object.get("temperature");
-	        humid = object.get("humidity");
-	        illumi = object.get("illuminance");
-	        noize = object.get("noise");
-	        uv = object.get("uv");
-	        air = object.get("airPressure");
-	        temphumid = object.get("temperatureHumidity");
-	        heat = object.get("heatStroke");
-	        kankyo_date = object.get("measureDate");
-	        battery = object.get("batteryVoltage");
+         	temper = object.get("temperature");
+         	humid = object.get("humidity");
+         	illumi = object.get("illuminance");
+         	noize = object.get("noise");
+         	uv = object.get("uv");
+         	air = object.get("airPressure");
+         	temphumid = object.get("temperatureHumidity");
+         	heat = object.get("heatStroke");
+         	kankyo_date = object.get("measureDate");
+         	battery = object.get("batteryVoltage");
 
 	    	KSdata[i] = new KankyoData(temper,humid,illumi,noize,uv,air,temphumid,heat,kankyo_date,battery);
 
-	    	//最新の環境データを取得(GLOBAL)
-         	if(i==0){
-       		 target1.innerHTML = KSdata[i].temper.slice(0,KSdata[i].temper.indexOf(',') );
-    	 	 target2.innerHTML = KSdata[i].humid.slice(0,KSdata[i].humid.indexOf(',') );
-    		 target3.innerHTML = KSdata[i].illumi.slice(0,KSdata[i].illumi.indexOf(','));
-		     target4.innerHTML = KSdata[i].noize.slice(0,KSdata[i].noize.indexOf(',') );
-		     target5.innerHTML = KSdata[i].uv.slice(0,KSdata[i].uv.indexOf(',') );
-		     target6.innerHTML = KSdata[i].air.slice(0,KSdata[i].air.indexOf(',') );
-		     target7.innerHTML = KSdata[i].temphumid.slice(0,KSdata[i].temphumid.indexOf(',') );
-		     target8.innerHTML = KSdata[i].heat.slice(0,KSdata[i].heat.indexOf(',') );
-		     target9.innerHTML = KSdata[i].kankyo_date.slice(0,KSdata[i].kankyo_date.indexOf(',') );
-		     target10.innerHTML = KSdata[i].battery ;
-        	 }
-
-       }
+	        if(i==0){
+//           	chart = new KankyoData(temper,humid,illumi,noize,uv,air,temphumid,heat,kankyo_date,battery);
+        		 target1.innerHTML = KSdata[i].temper.slice(0,KSdata[i].temper.indexOf(',') );
+        	 	 target2.innerHTML = KSdata[i].humid.slice(0,KSdata[i].humid.indexOf(',') );
+   	    		 target3.innerHTML = KSdata[i].illumi.slice(0,KSdata[i].illumi.indexOf(','));
+    		     target4.innerHTML = KSdata[i].noize.slice(0,KSdata[i].noize.indexOf(',') );
+    		     target5.innerHTML = KSdata[i].uv.slice(0,KSdata[i].uv.indexOf(',') );
+    		     target6.innerHTML = KSdata[i].air.slice(0,KSdata[i].air.indexOf(',') );
+    		     target7.innerHTML = KSdata[i].temphumid.slice(0,KSdata[i].temphumid.indexOf(',') );
+    		     target8.innerHTML = KSdata[i].heat.slice(0,KSdata[i].heat.indexOf(',') );
+    		     target9.innerHTML = KSdata[i].kankyo_date.slice(0,KSdata[i].kankyo_date.indexOf(',') );
+    		     target10.innerHTML = KSdata[i].battery ;
+         	}
+         }
      })
     .catch(function(err){
        console.log(err);
-      // target1.innerHTML = "データ取得失敗";
+       target1.innerHTML = "データ取得失敗";
      });
-
-
+}
 
 ////////////////////////////////////////////////////////////
 //////////OMRON connectのデータを取得
@@ -202,43 +205,41 @@ OCdata[2] = new HealthData('2017/01/30 16:23',110,156,87);
 OCdata[3] = new HealthData('2017/01/31 09:13',92,160,83);
 OCdata[4] = new HealthData('2017/02/01 11:33',98,154,86);
 
-//Load the Visualization API and the corechart package.
+
+//健康データの表示
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawChart);
 
-
-
+/*
 ////////////////////////////////////////////////////////////
 //////////マージ処理
 //////////OMRON connect (OCdata) と 環境センサー (KSdata)
 //////////でYYYY/MM/DD HH:MM が同じもののみコピー
 //////////////////////////////////////////////////////////
-var all = [];
-var year=month=day=hour=min=0;
-var KStime=OCtime=0;
-var k = 0;
-//日付（YYYY/MM/DD HH:MM が同じ場合のみコピー）
-//KSdata  '2017/02/02 09:36:06'
-//OCdata  '2017/01/30 16:20'
-for(var i in OCdata){
-	//year = parseInt(OCdata[i].substr(0,4),10);
-	//     month = parseInt(OCdata[i].substr(6,2),10);
-	//     day = parseInt(OCdata[i].substr(9,2),10);
-	//    hour = parseInt(OCdata[i].substr(12,2),10);
-	//   min = parseInt(OCdata[i].substr(15,2),10);
-	OCtime = parseInt(OCdata[i].date.substr(0,4) + OCdata[i].date.substr(5,2) + OCdata[i].date.substr(8,2) + OCdata[i].date.substr(11,2) + OCdata[i].date.substr(14,2),10);
-	for(var j in KSdata){
-		KStime = parseInt(KSdata[j].kankyo_date.substr(0,4) + KSdata[j].kankyo_date.substr(5,2) + KSdata[j].kankyo_date.substr(8,2) + KSdata[j].kankyo_date.substr(11,2) + KSdata[j].kankyo_date.substr(14,2),10);
-		if(OCtime.date.equals(KStime) == true){
-			all[k++] = new ALLdata(OCdata[i].date, OCdata[i].max, OCdata[i].min, OCdata[i].bpm, KSdata[i].temper , KSdata[i].humid , KSdata[i].illumi , KSdata[i].noize , KSdata[i].uv , KSdata[i].air , KSdata[i].temphumid , KSdata[i].heat);
+	var all = [];
+	var year=month=day=hour=min=0;
+	var KStime=OCtime=0;
+	var k = 0;
+	//日付（YYYY/MM/DD HH:MM が同じ場合のみコピー）
+	//KSdata  '2017/02/02 09:36:06'
+	//OCdata  '2017/01/30 16:20'
+	for(var i in OCdata){
+		//year = parseInt(OCdata[i].substr(0,4),10);
+		//     month = parseInt(OCdata[i].substr(6,2),10);
+		//     day = parseInt(OCdata[i].substr(9,2),10);
+		//    hour = parseInt(OCdata[i].substr(12,2),10);
+		//   min = parseInt(OCdata[i].substr(15,2),10);
+		OCtime = parseInt(OCdata[i].date.substr(0,4) + OCdata[i].date.substr(5,2) + OCdata[i].date.substr(8,2) + OCdata[i].date.substr(11,2) + OCdata[i].date.substr(14,2),10);
+		for(var j in KSdata){
+			KStime = parseInt(KSdata[j].kankyo_date.substr(0,4) + KSdata[j].kankyo_date.substr(5,2) + KSdata[j].kankyo_date.substr(8,2) + KSdata[j].kankyo_date.substr(11,2) + KSdata[j].kankyo_date.substr(14,2),10);
+			if(OCtime.date.equals(KStime) == true){
+				all[k++] = new ALLdata(OCdata[i].date, OCdata[i].max, OCdata[i].min, OCdata[i].bpm, KSdata[i].temper , KSdata[i].humid , KSdata[i].illumi , KSdata[i].noize , KSdata[i].uv , KSdata[i].air , KSdata[i].temphumid , KSdata[i].heat);
+			}
 		}
 	}
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////// ファンクション
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
 
-function drawChart() {  //本当は引数でデータを渡したいが、Google Chart の不具合（外部JSライブラリのため？）で渡すとバグるので諦める。
+function drawChart() {  //本当は引数でデータを渡したいが、Google Chart の不具合?（外部JSライブラリのため？）で渡すとバグるので諦める。
 
 	var data = new google.visualization.DataTable();
 	data.addColumn('string','日付');
@@ -260,15 +261,13 @@ function drawChart() {  //本当は引数でデータを渡したいが、Google
 
 	  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 	  window.setTimeout(chart.draw(data, options), 7000);
+  }
 
-}
 
 
 </script>
 
 </head>
-
-
 <body>
 	<table>
 		<tr>
@@ -285,6 +284,8 @@ function drawChart() {  //本当は引数でデータを渡したいが、Google
 
    <table border=1>
    <h1>環境センサー</h1>
+     <font color=red><B>更新ボタン</B></font>：
+     <input type="button" id="btn1" value="接続" onclick="onKankyoButton1_Click()" />
       <tr>
       <td width=200><font size=16 >計測日</font></td><td width=200><font size=16 color=blue><div id="message9"></div></font></td>
       <td width=200><font size=16 >電池</font></td><td width=200><font size=16 color=blue><div id="message10"></div></font></td>

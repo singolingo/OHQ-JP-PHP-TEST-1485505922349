@@ -92,10 +92,7 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
 
     KSdata = [];
 
-
-
     var target1 = document.getElementById("message1");
-    target1.innerHTML = "接続成功→読込中";
     var target2 = document.getElementById("message2");
     var target3 = document.getElementById("message3");
     var target4 = document.getElementById("message4");
@@ -106,41 +103,6 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
     var target9 = document.getElementById("message9");
     var target10 = document.getElementById("message10");
 
-    var temper; //Temperature
-    var humid; //Humidity
-    var illumi; //Illuminance
-    var uv; //UV
-    var noize; //Noize
-    var temphumid; // TemperatureHumidity
-    var heat; //heatstroke
-    var air; //Air Pressure
-    var kankyo_date; // 計測日
-    var battery; // 電池ボルト数
-
-////////// クラス定義　/////////////////////////////////////
-    function KankyoData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10){
-    	this.temper=p1;
-    	this.humid=p2;
-    	this.illumi=p3;
-    	this.noize=p4;
-    	this.uv=p5;
-    	this.air=p6;
-    	this.temphumid=p7;
-    	this.heat=p8;
-        this.kankyo_date=p9;
-        this.battery=p10;  //配列ではない。
-    }
-
-    function BroodPressureData(p1,p2,p3,p4){
-    	this.date=p1;
-    	this.max=p2;
-    	this.min=p3;
-    	this.bpm=p4;
-
-        }
-
-
-//////////データ取得　/////////////////////////////////////
     class_KankyoSensor.equalTo("sensorId","1B-00-01-21") //SensorIdは埋め込み。
     .order("measureDate",true)  //降順にソート（昇順の場合は、第２引数をカット。）
     .limit(1)
@@ -169,16 +131,16 @@ function ALLData(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11){
 
 	    	//最新の環境データを取得(GLOBAL)
          	if(i==0){
-       		 target1.innerHTML = KSdata[i].temper.slice(0,KSdata[i].temper.indexOf(',') );
-    	 	 target2.innerHTML = KSdata[i].humid.slice(0,KSdata[i].humid.indexOf(',') );
-    		 target3.innerHTML = KSdata[i].illumi.slice(0,KSdata[i].illumi.indexOf(','));
-		     target4.innerHTML = KSdata[i].noize.slice(0,KSdata[i].noize.indexOf(',') );
-		     target5.innerHTML = KSdata[i].uv.slice(0,KSdata[i].uv.indexOf(',') );
-		     target6.innerHTML = KSdata[i].air.slice(0,KSdata[i].air.indexOf(',') );
-		     target7.innerHTML = KSdata[i].temphumid.slice(0,KSdata[i].temphumid.indexOf(',') );
-		     target8.innerHTML = KSdata[i].heat.slice(0,KSdata[i].heat.indexOf(',') );
-		     target9.innerHTML = KSdata[i].kankyo_date.slice(0,KSdata[i].kankyo_date.indexOf(',') );
-		     target10.innerHTML = KSdata[i].battery ;
+        		 target1.innerHTML = KSdata.temper.slice(0,KSdata.temper.indexOf(',') );
+        	 	 target2.innerHTML = KSdata.humid.slice(0,KSdata.humid.indexOf(',') );
+   	    		 target3.innerHTML = KSdata.illumi.slice(0,KSdata.illumi.indexOf(','));
+    		     target4.innerHTML = KSdata.noize.slice(0,KSdata.noize.indexOf(',') );
+    		     target5.innerHTML = KSdata.uv.slice(0,KSdata.uv.indexOf(',') );
+    		     target6.innerHTML = KSdata.air.slice(0,KSdata.air.indexOf(',') );
+    		     target7.innerHTML = KSdata.temphumid.slice(0,KSdata.temphumid.indexOf(',') );
+    		     target8.innerHTML = KSdata.heat.slice(0,KSdata.heat.indexOf(',') );
+    		     target9.innerHTML = KSdata.kankyo_date.slice(0,KSdata.kankyo_date.indexOf(',') );
+    		     target10.innerHTML = KSdata.battery ;
         	 }
 
        }
