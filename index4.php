@@ -80,6 +80,7 @@ OCdata[2] = new HealthData('2017/01/30 16:23',110,156,87);
 OCdata[3] = new HealthData('2017/01/31 09:13',92,160,83);
 OCdata[4] = new HealthData('2017/02/01 11:33',98,154,86);
 OCdata[5] = new HealthData('2017/02/23 11:49',105,155,81);
+OCdata[6] = new HealthData('2017/02/24 10:08',104,159,90);
 
 
 //健康データの表示
@@ -248,8 +249,6 @@ function onLoadButton1_Click(){
 	    //チャート表示
 	    for (i=0; i<all.length ; i++){
 			if(all[i].max != 0){
-
-
 
 				td.innerText = all[i].date;
 	            td = tr.insertCell(-1);
