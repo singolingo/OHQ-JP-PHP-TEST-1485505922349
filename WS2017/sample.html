@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <title>環境センサー</title>
+
+        
+        <script src="js/chart.js"></script>
+
+        <!-- Styles -->
+        <link href="/css/app.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3 sidebar">
+            <div class="graph portrait">
+              <canvas id="graph-portrait"></canvas>
+            </div>
+            <div class="graph landscape">
+              <canvas id="air-pressure"></canvas>
+            </div>
+            <div class="graph landscape">
+              <canvas id="air-temperature"></canvas>
+            </div>
+            <div class="weather">
+              Tokyo/Haneda
+              <div class="flexiblebox">
+                <div class="icon">
+                  <img src="images/weathericons/icon28.png">
+                </div>
+                <div>
+                  <div class="value">Temperature</div>
+                  <div>13 ??</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-9">
+            <div id="map"></div>
+          </div>
+          <script>
+            function initMap() {
+              // Create a map object and specify the DOM element for display.
+//koko
+//?{?ﾔ
+//              var center = new google.maps.LatLng(35.630084687277055, 139.73297238349915);
+              var center = new google.maps.LatLng(35.629151605002825, 139.74415183067322);
+              var map = new google.maps.Map(document.getElementById('map'), {
+                center: center,
+                mapTypeId: google.maps.MapTypeId.HYBRID,
+                scrollwheel: false,
+                gestureHandling: 'greedy',
+                zoom: 16
+              });
+
+              var currentLocationMarker = new google.maps.Marker({
+                position: center,
+                icon: {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 7,
+                  strokeColor: '#FFFFFF',
+                  strokeOpacity: 1,
+                  strokeWeight: 2,
+                  fillColor: '#4285f4',
+                  fillOpacity: 1
+                },
+                draggable: false,
+                map: map
+              });
+
+              var contentString = (function() {/*
+                <div class="info">
+  <div class="row">
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="wi wi-thermometer" aria-hidden="true"></i>
+          ?C??
+        </div>
+        <div class="value">13</div>
+        <div class="symbol">??</div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="wi wi-humidity" aria-hidden="true"></i>
+          ???x
+        </div>
+        <div class="value">51</div>
+        <div class="symbol">%</div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+          ?Ɠx
+        </div>
+        <div class="value">16</div>
+        <div class="symbol">lx</div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="fa fa-volume-up" aria-hidden="true"></i>
+          ????
+        </div>
+        <div class="value">39.6</div>
+        <div class="symbol">db</div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="fa fa-sun-o" aria-hidden="true"></i>
+          UV
+        </div>
+        <div class="value">?ア</div>
+        <div class="symbol"></div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="wi wi-barometer" aria-hidden="true"></i>
+          ?C??
+        </div>
+        <div class="value">1012.04</div>
+        <div class="symbol">hPa</div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="fa fa-heart-o" aria-hidden="true"></i>
+          ?s?w??
+        </div>
+        <div class="value">?????Ȃ?</div>
+        <div class="symbol"></div>
+      </div>
+    </div>
+        <div class="col-sm-6">
+      <div class="property">
+        <div class="property-name">
+          <i class="wi wi-hot" aria-hidden="true"></i>
+          ?M???ﾇ
+        </div>
+        <div class="value">???ﾓ</div>
+        <div class="symbol"></div>
+      </div>
+    </div>
+      </div>
+</div>
+              */}).toString().match(/\/\*([^]*)\*\//)[1];
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              currentLocationMarker.addListener('click', function() {
+               infowindow.open(map, currentLocationMarker);
+              });
+
+              infowindow.open(map, currentLocationMarker);
+            }
+
+            var data = {
+              air_pressure: [
+                                  {x: new Date("2017/4/3 12:00"), y: 1015.54 },
+                                  {x: new Date("2017/4/3 13:00"), y: 1014.64 },
+                                  {x: new Date("2017/4/3 14:00"), y: 1013.64 },
+                                  {x: new Date("2017/4/3 15:00"), y: 1013.44 },
+                                  {x: new Date("2017/4/3 16:00"), y: 1012.54 },
+                                  {x: new Date("2017/4/3 17:00"), y: 1012.04 },
+                                  {x: new Date("2017/4/3 18:00"), y: 1011.64 },
+                                  {x: new Date("2017/4/3 19:00"), y: 1011.44 },
+                                  {x: new Date("2017/4/3 20:00"), y: 1008.44 },
+                                  {x: new Date("2017/4/3 21:00"), y: 1005.44 },
+                                  {x: new Date("2017/4/3 22:00"), y: 1005.4876396163 },
+                                  {x: new Date("2017/4/3 23:00"), y: 1005.6838737868 },
+                                  {x: new Date("2017/4/4 0:00"), y: 1005.6639259943 },
+                                  {x: new Date("2017/4/4 1:00"), y: 1005.2820164855 },
+                                  {x: new Date("2017/4/4 2:00"), y: 1005.8682303379 },
+                                  {x: new Date("2017/4/4 3:00"), y: 1005.9387460633 },
+                                  {x: new Date("2017/4/4 4:00"), y: 1006.2549466664 },
+                                  {x: new Date("2017/4/4 5:00"), y: 1006.5590838083 },
+                                  {x: new Date("2017/4/4 6:00"), y: 1007.0566930382 },
+                                  {x: new Date("2017/4/4 7:00"), y: 1007.2115200802 },
+                                  {x: new Date("2017/4/4 8:00"), y: 1007.2242560207 },
+                                  {x: new Date("2017/4/4 9:00"), y: 1007.1811665543 },
+                                  {x: new Date("2017/4/4 10:00"), y: 1007.3346923599 },
+                                  {x: new Date("2017/4/4 11:00"), y: 1007.4942283675 },
+                                  {x: new Date("2017/4/4 12:00"), y: 1007.4514580873 },
+                                  {x: new Date("2017/4/4 13:00"), y: 1008.0907419574 },
+                                  {x: new Date("2017/4/4 14:00"), y: 1008.4249997271 },
+                                  {x: new Date("2017/4/4 15:00"), y: 1008.2603858266 },
+                                  {x: new Date("2017/4/4 16:00"), y: 1008.3245949562 },
+                                  {x: new Date("2017/4/4 17:00"), y: 1008.2910080547 },
+                              ],
+              air_temperature: [
+                                  {x: new Date("2017/4/3 12:00"), y: 9.3 },
+                                  {x: new Date("2017/4/3 13:00"), y: 10 },
+                                  {x: new Date("2017/4/3 14:00"), y: 11.3 },
+                                  {x: new Date("2017/4/3 15:00"), y: 12.4 },
+                                  {x: new Date("2017/4/3 16:00"), y: 13.1 },
+                                  {x: new Date("2017/4/3 17:00"), y: 13 },
+                                  {x: new Date("2017/4/3 18:00"), y: 12.7 },
+                                  {x: new Date("2017/4/3 19:00"), y: 12.6 },
+                                  {x: new Date("2017/4/3 20:00"), y: 12.6 },
+                                  {x: new Date("2017/4/3 21:00"), y: 12.7 },
+                                  {x: new Date("2017/4/3 22:00"), y: 12.3 },
+                                  {x: new Date("2017/4/3 23:00"), y: 12.5 },
+                                  {x: new Date("2017/4/4 0:00"), y: 12.5 },
+                                  {x: new Date("2017/4/4 1:00"), y: 12.3 },
+                                  {x: new Date("2017/4/4 2:00"), y: 11.3 },
+                                  {x: new Date("2017/4/4 3:00"), y: 10.9 },
+                                  {x: new Date("2017/4/4 4:00"), y: 11.4 },
+                                  {x: new Date("2017/4/4 5:00"), y: 11.9 },
+                                  {x: new Date("2017/4/4 6:00"), y: 12.2 },
+                                  {x: new Date("2017/4/4 7:00"), y: 12.5 },
+                                  {x: new Date("2017/4/4 8:00"), y: 13.8 },
+                                  {x: new Date("2017/4/4 9:00"), y: 14.9 },
+                                  {x: new Date("2017/4/4 10:00"), y: 15 },
+                                  {x: new Date("2017/4/4 11:00"), y: 12.7 },
+                                  {x: new Date("2017/4/4 12:00"), y: 13.7 },
+                                  {x: new Date("2017/4/4 13:00"), y: 17.1 },
+                                  {x: new Date("2017/4/4 14:00"), y: 17.7 },
+                                  {x: new Date("2017/4/4 15:00"), y: 17.6 },
+                                  {x: new Date("2017/4/4 16:00"), y: 17 },
+                                  {x: new Date("2017/4/4 17:00"), y: 15.3 },
+                              ],
+              danger: [
+                                {
+                  x: new Date("2017/04/03 19:00:00"),
+                  y: 1020
+                },
+                                {
+                  x: new Date("2017/04/03 20:00:00"),
+                  y: 1020
+                },
+                                {
+                  x: new Date("2017/04/03 21:00:00"),
+                  y: 1020
+                },
+                              ]
+            }
+
+            var canvasAirPressure = document.getElementById("air-pressure");
+            var ctxAirPressure = canvasAirPressure.getContext("2d");
+
+            canvasAirPressure.height = canvasAirPressure.parentElement.clientHeight * 0.9;
+
+            var canvasAirTemperature = document.getElementById("air-temperature");
+            var ctxAirTemperature = canvasAirTemperature.getContext("2d");
+
+            canvasAirTemperature.height = canvasAirTemperature.parentElement.clientHeight * 0.9;
+
+            var canvasPortrait = document.getElementById("graph-portrait");
+            var ctxPortrait = canvasPortrait.getContext("2d");
+
+            var tmp = document.createElement('div');
+            tmp.style.height = '30vh';
+            canvasPortrait.height = tmp.clientHeight;
+
+            var airPressureChart = new Chart(ctxAirPressure, {
+              type: 'line',
+              data: {
+                datasets: [
+                  {
+                    label: '?C??',
+                    yAxisID: 'air_pressure',
+                    xAxisID: 'date',
+                    data: data.air_pressure,
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    borderWidth: 1
+                  },
+                  {
+                    label: '?v???ﾓ',
+                    yAxisID: 'air_pressure',
+                    xAxisID: 'date',
+                    data: data.danger,
+                    backgroundColor: 'rgba(255, 187, 0, .5)',
+                    borderColor: 'rgba(54, 162, 235, 0)',
+                    fill: true,
+                    pointRadius: 0,
+                    borderWidth: 0
+                  }
+                ]
+              },
+              options: {
+                scales: {
+                  yAxes: [
+                    {
+                      id: 'air_pressure',
+                      ticks: {
+                        fontColor: '#ff6384',
+                        beginAtZero:false
+                      }
+                    }
+                  ],
+                  xAxes: [{
+                    id: 'date',
+                    type: 'time',
+                    time: {
+                      unit: 'hour',
+                      unitStepSize: 6
+                    },
+                    position: 'bottom'
+                  }]
+                },
+                animation: {
+                  duration: 0
+                },
+                verticalLine: [{
+                  x: new Date(),
+                  style: 'rgba(255, 0, 0, .4)',
+                  text: 'now'
+                }]
+              }
+            });
+
+            var airTemperatureChart = new Chart(ctxAirTemperature, {
+              type: 'line',
+              data: {
+                datasets: [
+                  {
+                    label: '?C??',
+                    yAxisID: 'air_temperature',
+                    xAxisID: 'date',
+                    data: data.air_temperature,
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false,
+                    borderWidth: 1
+                  }
+                ]
+              },
+              options: {
+                scales: {
+                  yAxes: [
+                    {
+                      id: 'air_temperature',
+                      labelString: '???x',
+                      ticks: {
+                        fontColor: '#36a2eb',
+                        beginAtZero: false
+                      }
+                    }
+                  ],
+                  xAxes: [{
+                    id: 'date',
+                    type: 'time',
+                    time: {
+                      unit: 'hour',
+                      unitStepSize: 6
+                    },
+                    position: 'bottom'
+                  }]
+                },
+                animation: {
+                  duration: 0
+                },
+                verticalLine: [{
+                  x: new Date(),
+                  style: 'rgba(255, 0, 0, .4)',
+                  text: 'now'
+                }]
+              }
+            });
+
+            var portraitChart = new Chart(ctxPortrait, {
+              type: 'line',
+              data: {
+                datasets: [
+                  {
+                    label: '?C??',
+                    yAxisID: 'air_pressure',
+                    xAxisID: 'date',
+                    data: data.air_pressure,
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    borderWidth: 1
+                  },
+                  {
+                    label: '?C??',
+                    yAxisID: 'air_temperature',
+                    xAxisID: 'date',
+                    data: data.air_temperature,
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false,
+                    borderWidth: 1
+                  },
+                  {
+                    label: '?v???ﾓ',
+                    yAxisID: 'air_pressure',
+                    xAxisID: 'date',
+                    data: data.danger,
+                    backgroundColor: 'rgba(255, 187, 0, .5)',
+                    borderColor: 'rgba(54, 162, 235, 0)',
+                    fill: true,
+                    pointRadius: 0,
+                    borderWidth: 0
+                  }
+                ]
+              },
+              options: {
+                scales: {
+                  yAxes: [
+                    {
+                      id: 'air_pressure',
+                      ticks: {
+                        fontColor: '#ff6384',
+                        beginAtZero:false
+                      }
+                    },
+                    {
+                      id: 'air_temperature',
+                      labelString: '???x',
+                      position: 'right',
+                      ticks: {
+                        fontColor: '#36a2eb',
+                        beginAtZero: false
+                      }
+                    }
+                  ],
+                  xAxes: [{
+                    id: 'date',
+                    type: 'time',
+                    time: {
+                      unit: 'hour',
+                      unitStepSize: 6
+                    },
+                    position: 'bottom',
+                    paddingBottom: 20
+                  }]
+                },
+                animation: {
+                  duration: 0
+                },
+                verticalLine: [{
+                  x: new Date(),
+                  style: 'rgba(255, 0, 0, .4)',
+                  text: 'now'
+                }]
+              }
+            });
+
+            document.addEventListener(
+              'touchmove',
+              function(e) {
+                e.preventDefault();
+              },
+                false
+            );
+          </script>
+        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSTjTSK_9zXTKg6MiVHZbVeulPdzUbxBI&callback=initMap" async defer></script>
+    </body>
+</html>
+

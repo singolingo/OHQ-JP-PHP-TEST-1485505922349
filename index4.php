@@ -51,7 +51,7 @@ var KSdata = [];
 
 
 //【構造体】合体データ
-function ALLdata(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p11,p12){
+function ALLdata(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12){
 this.date=p1;
 this.max=p2;
 this.min=p3;
@@ -80,7 +80,7 @@ OCdata[2] = new HealthData('2017/01/30 16:23',110,156,87);
 OCdata[3] = new HealthData('2017/01/31 09:13',92,160,83);
 OCdata[4] = new HealthData('2017/02/01 11:33',98,154,86);
 OCdata[5] = new HealthData('2017/02/23 11:49',105,155,81);
-OCdata[6] = new HealthData('2017/02/24 10:08',104,159,90);
+OCdata[6] = new HealthData('2017/02/24 00:01',104,159,90);
 
 
 //健康データの表示
@@ -107,12 +107,12 @@ function drawOmronChart() {  //本当は引数でデータを渡したいが、G
 	var options = {
 		title: '血圧グラフ',
 		curveType: 'function',
-		width:900,
-		height:500,
+		width:2000,
+		height:1000,
 		legend: { position: 'bottom' }
 	};
 
-	var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+	var chart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
 	window.setTimeout(chart.draw(data, options), 7000);
 }
 
@@ -123,20 +123,30 @@ function drawALLChart() {
 	data.addColumn('number','最低血圧');
 	data.addColumn('number','最高血圧');
 	data.addColumn('number','BPM');
+	data.addColumn('number','温度');
+	data.addColumn('number','湿度');
+	data.addColumn('number','照度');
+	data.addColumn('number','騒音');
+	data.addColumn('number','ＵＶ');
+	data.addColumn('number','気圧');
+	data.addColumn('number','不快指数');
+	data.addColumn('number','熱中症率');
 
-	for (var i in ALLdata){
-		data.addRows([[ALLdata[i].date, ALLdata[i].max, ALLdata[i].min, ALLdata[i].bpm]]);
+	for (var i in all){
+		if (all[i].max != ""){
+			data.addRows([[all[i].date, all[i].max, all[i].min, all[i].bpm, all[i].temper, all[i].humid, all[i].illumi, all[i].noize, all[i].uv, all[i].air/1000, all[i].temphumid, all[i].heat]]);
+		}
 	}
 
 	var options = {
-		title: '血圧グラフ',
+		title: '血圧＆環境センサー',
 		curveType: 'function',
 		width:900,
 		height:500,
 		legend: { position: 'bottom' }
 	};
 
-	var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+	var chart = new google.visualization.LineChart(document.getElementById('curve_chart2'));
 	window.setTimeout(chart.draw(data, options), 7000);
 }
 
@@ -237,48 +247,14 @@ function onLoadButton1_Click(){
 			for(var j in OCdata){
 		    	OCtime = parseInt(OCdata[j].date.substr(0,4) + OCdata[j].date.substr(5,2) + OCdata[j].date.substr(8,2) + OCdata[j].date.substr(11,2) + OCdata[j].date.substr(14,2),10);
 	    		if(KStime == OCtime){
-	    			all[k++] = new ALLdata(KSdata[i].kankyo_date, OCdata[j].max, OCdata[j].min, OCdata[j].bpm, KSdata[i].temper , KSdata[i].humid , KSdata[i].illumi , KSdata[i].noize , KSdata[i].uv , KSdata[i].air , KSdata[i].temphumid , KSdata[i].heat);
+	    			all[k++] = new ALLdata(KSdata[i].kankyo_date, OCdata[j].max, OCdata[j].min, OCdata[j].bpm, Number(KSdata[i].temper) , Number(KSdata[i].humid) , Number(KSdata[i].illumi) , Number(KSdata[i].noize) , Number(KSdata[i].uv) , Number(KSdata[i].air) , Number(KSdata[i].temphumid) , Number(KSdata[i].heat));
 	    		}
 	    		else
 		    	{
-		    		all[k++] = new ALLdata(KSdata[i].kankyo_date, 0, 0, 0, KSdata[i].temper , KSdata[i].humid , KSdata[i].illumi , KSdata[i].noize , KSdata[i].uv , KSdata[i].air , KSdata[i].temphumid , KSdata[i].heat);
+		    		all[k++] = new ALLdata(KSdata[i].kankyo_date, 0, 0, 0, Number(KSdata[i].temper) , Number(KSdata[i].humid) , Number(KSdata[i].illumi) , Number(KSdata[i].noize) , Number(KSdata[i].uv) , Number(KSdata[i].air) , Number(KSdata[i].temphumid) , Number(KSdata[i].heat));
 		    	}
 	    	}
 		}
-
-	    //チャート表示
-	    for (i=0; i<all.length ; i++){
-			if(all[i].max != 0){
-
-				td.innerText = all[i].date;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].max;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].min;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].bpm;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].temper;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].humid;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].illumi;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].noize;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].uv;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].air;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].temphumid;
-	            td = tr.insertCell(-1);
-		    	td.innerText = all[i].heat;
-	    	}
-	    }
-
-	     //ALLデータのチャートを表示
-	    google.charts.load('current', {packages: ['corechart', 'line']});
-	    google.charts.setOnLoadCallback(drawALLChart);
 
 
 	    //データ一覧に値を代入する処理
@@ -313,6 +289,14 @@ function onLoadButton1_Click(){
 	    }
 
 
+	    //健康機器で計測時のデータをチャートに表示
+	    google.charts.load('current', {packages: ['corechart', 'line']});
+	    google.charts.setOnLoadCallback(drawALLChart);
+
+
+
+
+
 	})
     .catch(function(err){
        console.log(err);
@@ -338,7 +322,7 @@ function onLoadButton1_Click(){
 
 	<table width=500 align=left>
    <h1>血圧計</h1>
-   <div id="curve_chart"><B><font size=128 color=red>読込中</font><B></div>
+   <div id="curve_chart1"><B><font size=128 color=red>読込中</font><B></div>
    </table>
 
    <table border=1>
@@ -366,6 +350,12 @@ function onLoadButton1_Click(){
       <td><font size=16 >熱中症</font></td><td><font size=16 color=blue><div id="message8"></div></font></td>
       </tr>
     </table>
+
+	<table width=500 align=left>
+	<h1>血圧計＆環境センサー</h1>
+	<div id="curve_chart2"><B><font size=128 color=red>読込中</font><B></div>
+	</table>
+
 
 	<table id="ALLtbl" border="2" bgcolor="#97defa">
 		<tr bgcolor="#ffffff">
